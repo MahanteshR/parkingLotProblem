@@ -63,7 +63,7 @@ def park_a_car():
 def unpark_your_car():
     req_Json = check_method(request)
     slot_number = check_for_valid_slot(req_Json['slot_number'])
-    
+
     if slot_number < int(PARKING_SIZE):
         if PARKING_SPACE[slot_number] is not None:
             PARKING_SPACE[slot_number] = None

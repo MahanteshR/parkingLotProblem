@@ -15,6 +15,6 @@ class ApiTest(unittest.TestCase):
     def test_2_park_car(self):
         r = requests.post(ApiTest.PARK_CAR, json=ApiTest.CAR_OBJ)
         self.assertEqual(r.status_code, 200)
-        # print(r.text)
+        print(r.text)
         self.assertNotEqual("Parking Space is full", r.text)
 
