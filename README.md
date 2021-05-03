@@ -70,3 +70,29 @@ There are 4 main API Endpoints:
     limiter = RateLimiter
     @limiter(calls=10, period=10)
     ```
+  
+  
+* endpoint - ```http://127.0.0.1:5000/unparkcar```
+    * `POST` request to this URL with `slot_number` specified in the body of the request
+    frees the parking slot if occupied by a car number.
+  ```
+    {
+    "slot_number" : "2"
+    }
+    ```
+      
+      
+* endpoint - ```http://127.0.0.1:5000/getcarslotinfo```
+    * `POST` request to this URL with `slot_number` or `car_number` specified in the body 
+      of the request will fetch the respective slot-car details.
+      
+---
+###### NOTE
+
+All error handling cases are handled wherever possible. For example, 
+handling cases where a negative slot number is entered and so on.`
+--- 
+
+#### References
+* Flask - https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world
+* Rate Limiter - https://github.com/tomasbasham/ratelimit
