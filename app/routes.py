@@ -9,11 +9,11 @@ load_dotenv()
 limiter = RateLimiter
 
 PARKING_SIZE = os.getenv("PARKING_LOT_SIZE")
-parking_space = dict.fromkeys(range(int(PARKING_SIZE)))
+PARKING_SPACE = dict.fromkeys(range(int(PARKING_SIZE)))
 
 
 def is_parking_full():
-    assert None in parking_space.values(), "parking space is full"
+    assert None in PARKING_SPACE.values(), "parking space is full"
 
 
 def check_method(request):
@@ -30,10 +30,10 @@ def check_for_valid_slot(slot):
     return valid
 
 
-@app.route('/', methods=['POST'])
+@app.route('/', methods=['GET'])
 def home():
-    if request.method == 'POST':
-        return jsonify({"Parking Space": parking_space})
+    if request.method == 'GET':
+        return jsonify({"Parking Space": PARKING_SPACE})
 
 
 @app.route('/parkcar', methods=['POST'])
@@ -48,9 +48,9 @@ def park_a_car():
     except AssertionError:
         abort(Response("Parking Space is full"))
 
-    for slot, car in parking_space.items():
+    for slot, car in PARKING_SPACE.items():
         if car is None:
-            parking_space[slot] = car_number
+            PARKING_SPACE[slot] = car_number
             parked_slot = slot
             break
     return Response("Your car is parked at slot: " + str(parked_slot))
@@ -61,8 +61,8 @@ def unpark_your_car():
     req_Json = check_method(request)
     slot_number = check_for_valid_slot(req_Json['slot_number'])
     if slot_number < int(PARKING_SIZE):
-        if parking_space[slot_number] is not None:
-            parking_space[slot_number] = None
+        if PARKING_SPACE[slot_number] is not None:
+            PARKING_SPACE[slot_number] = None
             return Response("Slot number " + str(slot_number) + " has been freed")
         else:
             return Response("The slot " + str(slot_number) + " is empty")
@@ -75,17 +75,17 @@ def get_car_slot_info():
     # Car number sent in the request.
     if 'car_number' in req_Json:
         car_number = req_Json['car_number']
-        for slot, car in parking_space.items():
+        for slot, car in PARKING_SPACE.items():
             if car == car_number:
                 return Response("Car number " + car_number + " is present at slot " + str(slot))
         return Response("Car number " + car_number + "is not present in this parking space. Please try to remember "
                                                      "your car number")
 
-    # Slot number is sent in the request.
+    # Slot number sent in the request.
     elif 'slot_number' in req_Json:
         slot = req_Json['slot_number']
         check_for_valid_slot(slot)
-        car_number = parking_space.get(slot)
+        car_number = PARKING_SPACE.get(slot)
 
         if car_number is not None:
             return Response("Car number " + car_number + " is present at slot " + slot)
