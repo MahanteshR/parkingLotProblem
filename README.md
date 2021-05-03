@@ -24,7 +24,7 @@ takeHomeTest
 ├───README.md
 └───requirements.txt
 ```
-The *routes* file has all the endpoints and *models* has the `RateLimiter`  class defined.
+The *routes* file has all the endpoints and *models* has the `RateLimiter`  decorator defined.
 
 To run the application, from the root directory, execute:
 ```

@@ -12,15 +12,18 @@ PARKING_SIZE = os.getenv("PARKING_LOT_SIZE")
 PARKING_SPACE = dict.fromkeys(range(int(PARKING_SIZE)))
 
 
+# function to check if the parking space is full
 def is_parking_full():
     assert None in PARKING_SPACE.values(), "parking space is full"
 
 
+# function to check the request method
 def check_method(request):
     if request.method == 'POST':
         return request.json
 
 
+# function to check whether the slot_number from the request is a valid input
 def check_for_valid_slot(slot):
     try:
         valid = int(slot)
@@ -60,6 +63,7 @@ def park_a_car():
 def unpark_your_car():
     req_Json = check_method(request)
     slot_number = check_for_valid_slot(req_Json['slot_number'])
+    
     if slot_number < int(PARKING_SIZE):
         if PARKING_SPACE[slot_number] is not None:
             PARKING_SPACE[slot_number] = None
